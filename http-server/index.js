@@ -1,5 +1,7 @@
 const http = require("http");
 const fs = require("fs");
+const argv = require("minimist")(process.argv.slice(2));
+
 let homeContent = "";
 let projectContent = "";
 let registrationContent = "";
@@ -25,7 +27,7 @@ fs.readFile("registration.html", (err, registration) => {
   registrationContent = registration;
 });
 
-const port = process.argv[2] || 3000;
+const port = argv.port || argv.p || 3000;
 
 http
   .createServer((request, response) => {
