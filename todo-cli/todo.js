@@ -1,37 +1,44 @@
-const todoList = () => {
-  all = []
-  const add = (todoItem) => {
-    all.push(todoItem)
-  }
-  const markAsComplete = (index) => {
-    all[index].completed = true
+class TodoList {
+  constructor() {
+    this.items = [];
   }
 
-  const overdue = () => {
-    const overdueItems = all.filter(item => !item.completed && new Date(item.dueDate) < dateToday)
-    return overdueItems
+  add(item) {
+    this.items.push(item);
   }
 
-  const dueToday = () => {
-    const todayItems = all.filter(item => !item.completed && item.dueDate === today)
-    return todayItems
+  markAsComplete(index) {
+    this.items[index].completed = true;
   }
 
-  const dueLater = () => {
-    const laterItems = all.filter(item => !item.completed && new Date(item.dueDate) > dateToday && item.dueDate !== tomorrow)
-    return laterItems
+  overdue() {
+    const today = new Date().toISOString().split("T")[0];
+    return this.items.filter((item) => item.dueDate < today);
   }
 
-  const toDisplayableList = (list) => {
-    let displayableList = ""
-    list.forEach((item, index) => {
-      const checkbox = item.completed ? "[x]" : "[ ]"
-      const dueDate = (list === overdue() || list === dueLater()) ? ` ${formattedDate(new Date(item.dueDate))}` : ""
-      displayableList += `${index + 1}. ${checkbox} ${item.title}${dueDate}\n`
-    })
-    return displayableList
+  dueToday() {
+    const today = new Date().toISOString().split("T")[0];
+    return this.items.filter((item) => item.dueDate === today);
   }
 
+  dueLater() {
+    const today = new Date().toISOString().split("T")[0];
+    return this.items.filter((item) => item.dueDate > today);
+  }
+
+  toDisplayableList() {
+    return this.items
+      .map((item) => {
+        const isCompleted = item.completed ? "[x]" : "[ ]";
+        const displayedDate =
+          item.dueDate === new Date().toISOString().slice(0, 10)
+            ? ""
+            : item.dueDate;
+        return `${isCompleted} ${item.title} ${displayedDate}`;
+      })
+      .join("\n");
+  }
+}
   return {
     all,
     add,
