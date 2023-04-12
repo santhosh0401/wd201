@@ -30,8 +30,7 @@ function todoList() {
       return all.filter(
         item =>
           item.dueDate > today &&
-          item.completed === false &&
-          item.title !== "Submit assignment"
+          item.completed === false 
       );
     }
   
